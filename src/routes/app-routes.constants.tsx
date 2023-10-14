@@ -1,18 +1,12 @@
-import { PageType, RouteType } from './app-routes.types'
-import { Detail, JsonDisplay, Table } from '../pages'
+import { RouteType } from './app-routes.types'
+import {
+  Detail,
+  JsonDisplay,
+  Table
+} from '../pages'
 import { MoveToRoot } from './move-to-root'
-
-export const pages: PageType = {
-  table: {
-    path: '/data/table'
-  },
-  jsonDisplay: {
-    path: '/data/display'
-  },
-  detail: {
-    path: '/detail'
-  }
-}
+import { NowUrl } from '../components'
+import { pages } from '../constants'
 
 export const configRoutes: RouteType[] = [
   {
@@ -23,17 +17,32 @@ export const configRoutes: RouteType[] = [
   {
     key: '1',
     path: pages.table.path,
-    element: <Table />
+    element: (
+      <>
+        <NowUrl />
+        <Table />
+      </>
+    )
   },
   {
     key: '2',
     path: pages.jsonDisplay.path,
-    element: <JsonDisplay />
+    element: (
+      <>
+        <NowUrl />
+        <JsonDisplay />
+      </>
+    )
   },
   {
     key: '3',
     path: pages.detail.path,
-    element: <Detail />
+    element: (
+      <>
+        <NowUrl />
+        <Detail />
+      </>
+    )
   },
   {
     key: 'last',

@@ -1,4 +1,8 @@
-import { HashRouter, Route, Routes } from 'react-router-dom'
+import {
+  HashRouter,
+  Route,
+  Routes
+} from 'react-router-dom'
 import { configRoutes } from './app-routes.constants'
 
 export const AppRoutes = () => {

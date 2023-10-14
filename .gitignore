@@ -12,6 +12,7 @@ ts-study.ts
 
 # production
 /build
+/dist
 .vscode/
 
 # misc

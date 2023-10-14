@@ -1,1 +1,1 @@
-export * from "./change-mode";
+export * from './change-mode'
