@@ -1,3 +1,10 @@
 README.md
 /node_modules
 /public
+.eslintrc.cjs
+.prettierrc.json 
+package-lock.json
+package.json
+tsconfig.json 
+tsconfig.node.json 
+vite.config.ts 

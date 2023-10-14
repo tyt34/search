@@ -1,27 +1,22 @@
-# React + TypeScript + Vite
+# React 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Необходимо использовать:
 
-Currently, two official plugins are available:
+- react
+- react-router
+- @elastic/eui
+- redux
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Смысл приложения:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- используя *react-router*, реализовать две страницы и переключение между
+ними. Все страницы, смена страниц, переключение между режимами - должны быть красиво оформлены, используя соответствующие компоненты. Список страниц:
+- **первая страница** - переключение между режимами:
+- - **первый режим** - отображает данные в формате *JSON*. Особенности режима:
+- - - отображение *JSON* должно быть сформировано с отступами и подсветкой
+- - **второй режим** - отображает данные в табличном представлении. Особенности режима:
+- - - должна быть возможность пагинации и фильтрации по полям, каждая строка в таблице – ранее загруженный в *OpenSearch* документ
+- - - поиск в таблице должен быть синхронизирован с адресной строкой (сохранение значения поиска в URL)
+- - - переход на вторую страницу осуществляется из таблицы, путем нажатия на ссылку в строке (ссылка формируется автоматически, в которую поставляется ID документа – например так: `/comment/5`)
+- **вторая страница** - отображается детализация открытого документа (формат — по желанию)
+- каждое значение документа должно являться ссылкой с возможностью вернуться на страницу со списком и автоматической подстановкой значения в поиск 
