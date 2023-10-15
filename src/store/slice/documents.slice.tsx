@@ -3,7 +3,7 @@ import {
   createSlice
 } from '@reduxjs/toolkit'
 
-export type DocumentType = {
+export type TypeDocument = {
   postId: number
   id: number
   name: string
@@ -14,11 +14,11 @@ export type DocumentType = {
 type ActionTotal = PayloadAction<number>
 
 type ActionDocument = PayloadAction<
-  DocumentType[]
+  TypeDocument[]
 >
 
 type StateType = {
-  documents: DocumentType[]
+  documents: TypeDocument[]
   total: number
 }
 

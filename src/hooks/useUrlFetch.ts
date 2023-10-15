@@ -11,10 +11,8 @@ export const useUrlFetch = () => {
 
   const getDocuments = async () => {
     const { data, total } = await getData('')
-    /**
-     * почему DocumentType[] не является DocumentType[]
-     */
-    dispatch(setDocuments(data as any))
+
+    dispatch(setDocuments(data))
     dispatch(setTotal(total))
   }
 

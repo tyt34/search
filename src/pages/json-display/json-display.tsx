@@ -6,19 +6,25 @@ import {
 
 import styles from './json-display.module.scss'
 import { useUrlFetch } from '../../hooks'
+import { JsonToHtml } from './components'
 
 export const JsonDisplay = () => {
   const total = useTotal()
   const documents = useDocuments()
 
-  console.log({ T: total, D: documents })
+  console.log({ Tj: total, Dj: documents })
 
   useUrlFetch()
 
   return (
-    <div className={styles.a}>
+    <>
       <ChangeMode />
-      This is component: JsonDisplay
-    </div>
+      <p>JSON:</p>
+      <p className={styles.json}>
+        {documents.length ? (
+          <JsonToHtml json={documents ?? []} />
+        ) : null}
+      </p>
+    </>
   )
 }

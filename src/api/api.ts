@@ -1,3 +1,5 @@
+import { TypeDocument } from '../store/slice'
+
 const url = 'http://localhost:3001'
 
 const transformParams = (params: any) => {
@@ -6,7 +8,7 @@ const transformParams = (params: any) => {
 }
 
 type DataFetch = {
-  data: DocumentType[]
+  data: TypeDocument[]
   total: number
 }
 
