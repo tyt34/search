@@ -4,6 +4,6 @@ import { pages } from '../constants'
 export const MoveToRoot = () => (
   <Navigate
     replace
-    to={pages.table.path}
+    to={pages.default.path}
   />
 )

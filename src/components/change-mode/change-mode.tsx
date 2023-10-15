@@ -1,10 +1,10 @@
-import { EuiButton } from '@elastic/eui'
 import {
   useLocation,
   useNavigate
 } from 'react-router'
 import { arrFilter } from '../../utils'
 import { pages } from '../../constants'
+import { Button } from '@mui/material'
 // import styles from './change-mode.module.scss'
 
 export const ChangeMode = () => {
@@ -27,11 +27,11 @@ export const ChangeMode = () => {
   console.log({ pathname })
 
   return (
-    <EuiButton
-      color={'primary'}
+    <Button
+      variant="contained"
       onClick={handleClick}
     >
       Change mode
-    </EuiButton>
+    </Button>
   )
 }

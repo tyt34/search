@@ -12,11 +12,8 @@ const partOfObject = (
   begin: boolean,
   end: boolean
 ) => {
-  console.log({ k, v, begin, end })
-
   const typeValue =
     k === 'id' || k === 'postId' ? 'num' : 'str'
-  console.log({ typeValue })
 
   return (
     <>
@@ -45,20 +42,15 @@ const partOfObject = (
 export const JsonToHtml: FC<Props> = ({
   json
 }) => {
-  console.log({ json })
-
   return (
     <>
       {'['}
       {json.map((doc) => {
-        console.log({ doc })
         const arrKeys = Object.keys(doc)
         const arrValue = Object.values(doc)
-        console.log({ arrKeys })
         const htmlDocument: JSX.Element[] =
           arrKeys.reduce<JSX.Element[]>(
             (acc, el, i) => {
-              console.log({ acc, el, i })
               const begin = i === 0
               const end =
                 i === arrValue.length - 1

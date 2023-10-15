@@ -11,7 +11,9 @@
     "pret": "npx prettier . --write"
   },
   "dependencies": {
-    "@elastic/eui": "^89.0.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.13",
     "@reduxjs/toolkit": "^1.9.7",
     "@types/react-redux": "^7.1.27",
     "react": "^18.2.0",
@@ -32,7 +34,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "prettier": "3.0.3",
-    "typescript": "4.5.3",
+    "typescript": "5.2.2",
     "vite": "^4.4.5"
   }
 }

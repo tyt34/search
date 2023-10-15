@@ -2,7 +2,7 @@ import { RouteType } from './app-routes.types'
 import {
   Detail,
   JsonDisplay,
-  Table
+  TablePage
 } from '../pages'
 import { MoveToRoot } from './move-to-root'
 import { NowUrl } from '../components'
@@ -20,7 +20,7 @@ export const configRoutes: RouteType[] = [
     element: (
       <>
         <NowUrl />
-        <Table />
+        <TablePage />
       </>
     )
   },
@@ -43,10 +43,10 @@ export const configRoutes: RouteType[] = [
         <Detail />
       </>
     )
-  },
-  {
-    key: 'last',
-    path: '/*',
-    element: <MoveToRoot />
   }
+  // {
+  //   key: 'last',
+  //   path: '/*',
+  //   element: <MoveToRoot />
+  // }
 ]

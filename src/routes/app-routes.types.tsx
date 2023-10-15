@@ -1,4 +1,8 @@
-type AllPage = 'table' | 'jsonDisplay' | 'detail'
+type AllPage =
+  | 'table'
+  | 'jsonDisplay'
+  | 'detail'
+  | 'default'
 
 export type RouteType = {
   key: string | number

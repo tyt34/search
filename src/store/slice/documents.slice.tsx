@@ -11,6 +11,8 @@ export type TypeDocument = {
   body: string
 }
 
+export type KeysDocument = keyof TypeDocument
+
 type ActionTotal = PayloadAction<number>
 
 type ActionDocument = PayloadAction<

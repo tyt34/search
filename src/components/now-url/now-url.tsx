@@ -5,9 +5,25 @@ export const NowUrl = () => {
   const { pathname, search, state } =
     useLocation()
 
-  console.log({ pathname, search, state })
+  const queryParams = new URLSearchParams(search)
+
+  const numberPage = queryParams.get('page')
+
+  const page = numberPage || 1
+
+  console.log({
+    pathname,
+    search,
+    state,
+    queryParams,
+    numberPage,
+    page
+  })
 
   return (
-    <div className={styles.a}>/{pathname}</div>
+    <div className={styles.a}>
+      #{pathname}
+      {search}
+    </div>
   )
 }

@@ -1,18 +1,12 @@
 import { ChangeMode } from '../../components'
-import {
-  useDocuments,
-  useTotal
-} from '../../store/hook'
+import { useDocuments } from '../../store/hook'
 
 import styles from './json-display.module.scss'
 import { useUrlFetch } from '../../hooks'
 import { JsonToHtml } from './components'
 
 export const JsonDisplay = () => {
-  const total = useTotal()
   const documents = useDocuments()
-
-  console.log({ Tj: total, Dj: documents })
 
   useUrlFetch()
 
