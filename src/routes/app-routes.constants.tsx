@@ -7,8 +7,15 @@ import {
   JsonDisplay,
   TablePage
 } from '../pages'
-import { MoveToRoot } from './move-to-root'
 import { NowUrl } from '../components'
+import { Navigate } from 'react-router'
+
+const MoveToRoot = () => (
+  <Navigate
+    replace
+    to={pages.default.path}
+  />
+)
 
 export const pages: PageType = {
   table: {
@@ -61,9 +68,4 @@ export const configRoutes: RouteType[] = [
       </>
     )
   }
-  // {
-  //   key: 'last',
-  //   path: '/*',
-  //   element: <MoveToRoot />
-  // }
 ]

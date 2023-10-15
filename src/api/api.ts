@@ -2,16 +2,36 @@ import { TypeDocument } from '../store/slice'
 
 const url = 'http://localhost:3001'
 
-type ConfFetch = {
-  type: 'all'
+export type typeForFetch = 'all' | 'filter'
+
+export type ConfFetch = {
+  type: typeForFetch
   page: number | string
+  fromId: string
+  toId: string
+  fromPost: string
+  toPost: string
 }
 
 const transformParams = (params: ConfFetch) => {
-  const typeSearch = params.type
-  const numPage = params.page
+  const {
+    fromId,
+    fromPost,
+    page,
+    toId,
+    toPost,
+    type
+  } = params
+  let endpoint = ''
 
-  return `/${typeSearch}?page=${numPage}`
+  if (type === 'all') {
+    endpoint = `/${type}?page=${page}`
+  }
+  if (type === 'filter') {
+    endpoint = `/${type}?page=${page}&from_id=${fromId}&to_id=${toId}&from_post=${fromPost}&to_post=${toPost}`
+  }
+
+  return endpoint
 }
 
 type DataFetch = {

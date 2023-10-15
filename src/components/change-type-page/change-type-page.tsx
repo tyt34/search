@@ -14,12 +14,12 @@ export const ChangeTypePage = () => {
   const { pathname, state, search, hash } =
     useLocation()
 
-  console.log({
-    path: pathname,
-    state,
-    search,
-    hash
-  })
+  // console.log({
+  //   path: pathname,
+  //   state,
+  //   search,
+  //   hash
+  // })
 
   const handleClick = () => {
     const arrPath = arrFilter(pathname.split('/'))

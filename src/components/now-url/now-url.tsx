@@ -8,12 +8,12 @@ export const NowUrl = () => {
 
   const { page } = usePageNumber()
 
-  console.log({
-    pathname,
-    search,
-    state,
-    page
-  })
+  // console.log({
+  //   pathname,
+  //   search,
+  //   state,
+  //   page
+  // })
 
   return (
     <div className={styles.a}>

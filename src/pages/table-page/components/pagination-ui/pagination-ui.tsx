@@ -1,8 +1,7 @@
 import { Pagination } from '@mui/material'
 import {
   ChangeEvent,
-  startTransition,
-  useEffect
+  startTransition
 } from 'react'
 import { useNavigate } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
@@ -11,20 +10,19 @@ import { documentsOnPage } from '../../../../constants'
 import { usePageNumber } from '../../../../hooks'
 
 export const PaginationUi = () => {
-  const { page } = usePageNumber()
-  // const [page, setPage] = useState(1)
-  const total = useTotal()
-
-  const maxPage = total / documentsOnPage
-
-  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+  const total = useTotal()
+  const { page } = usePageNumber()
+
+  const maxPage = Math.ceil(
+    total / documentsOnPage
+  )
 
   const handleChange = (
     event: ChangeEvent<unknown>,
     value: number
   ) => {
-    // setPage(value)
     searchParams.set('page', `${value}`)
 
     startTransition(() => {

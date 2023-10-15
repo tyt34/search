@@ -31,8 +31,8 @@ export const TableUi = () => {
   const documents = useDocuments()
 
   console.log({
-    Tt: total,
-    Dt: documents,
+    // Tt: total,
+    // Dt: documents,
     fd: documents.length ? documents[0].id : null
   })
 
