@@ -2,9 +2,16 @@ import { TypeDocument } from '../store/slice'
 
 const url = 'http://localhost:3001'
 
-const transformParams = (params: any) => {
-  console.log({ params })
-  return '/all?page=1'
+type ConfFetch = {
+  type: 'all'
+  page: number | string
+}
+
+const transformParams = (params: ConfFetch) => {
+  const typeSearch = params.type
+  const numPage = params.page
+
+  return `/${typeSearch}?page=${numPage}`
 }
 
 type DataFetch = {
@@ -13,20 +20,19 @@ type DataFetch = {
 }
 
 export const getData = async (
-  params: any
+  params: ConfFetch
 ): Promise<DataFetch> => {
-  console.log({ params })
+  const urlFetch = url + transformParams(params)
 
-  const res = await fetch(
-    url + transformParams(params),
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
+  console.log({ params, urlFetch })
+
+  const res = await fetch(urlFetch, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
     }
-  )
+  })
 
   const json = await res.json()
 

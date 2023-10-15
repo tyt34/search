@@ -16,7 +16,7 @@ const partOfObject = (
     k === 'id' || k === 'postId' ? 'num' : 'str'
 
   return (
-    <>
+    <section key={`${v}${k}`}>
       <p className={styles.brackets}>
         {begin ? '{' : ''}
       </p>
@@ -35,7 +35,7 @@ const partOfObject = (
       <p className={styles.brackets}>
         {end ? '},' : ''}
       </p>
-    </>
+    </section>
   )
 }
 

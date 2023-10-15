@@ -1,4 +1,7 @@
-import { RouteType } from './app-routes.types'
+import {
+  PageType,
+  RouteType
+} from './app-routes.types'
 import {
   Detail,
   JsonDisplay,
@@ -6,7 +9,21 @@ import {
 } from '../pages'
 import { MoveToRoot } from './move-to-root'
 import { NowUrl } from '../components'
-import { pages } from '../constants'
+
+export const pages: PageType = {
+  table: {
+    path: '/data/table/'
+  },
+  jsonDisplay: {
+    path: '/data/display'
+  },
+  detail: {
+    path: '/detail'
+  },
+  default: {
+    path: '/data/table?mode=all&page=1'
+  }
+}
 
 export const configRoutes: RouteType[] = [
   {

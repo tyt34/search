@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router'
-import { pages } from '../constants'
+import { pages } from './app-routes.constants'
 
 export const MoveToRoot = () => (
   <Navigate

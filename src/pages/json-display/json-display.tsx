@@ -1,6 +1,5 @@
-import { ChangeMode } from '../../components'
+import { ChangeTypePage } from '../../components'
 import { useDocuments } from '../../store/hook'
-
 import styles from './json-display.module.scss'
 import { useUrlFetch } from '../../hooks'
 import { JsonToHtml } from './components'
@@ -12,13 +11,13 @@ export const JsonDisplay = () => {
 
   return (
     <>
-      <ChangeMode />
+      <ChangeTypePage />
       <p>JSON:</p>
-      <p className={styles.json}>
+      <div className={styles.json}>
         {documents.length ? (
           <JsonToHtml json={documents ?? []} />
         ) : null}
-      </p>
+      </div>
     </>
   )
 }

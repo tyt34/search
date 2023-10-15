@@ -1,22 +1,17 @@
 import { useLocation } from 'react-router'
 import styles from './now-url.module.scss'
+import { usePageNumber } from '../../hooks'
 
 export const NowUrl = () => {
   const { pathname, search, state } =
     useLocation()
 
-  const queryParams = new URLSearchParams(search)
-
-  const numberPage = queryParams.get('page')
-
-  const page = numberPage || 1
+  const { page } = usePageNumber()
 
   console.log({
     pathname,
     search,
     state,
-    queryParams,
-    numberPage,
     page
   })
 

@@ -3,13 +3,13 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import TableCell from '@mui/material/TableCell'
-import { KeysDocument } from '../../store/slice'
+import { KeysDocument } from '../../../../store/slice'
 import {
   EnhancedTableProps,
   ExtendedTableCellProps,
   HeadCell,
   Order
-} from './table-page.types'
+} from './table-ui.types'
 
 export const arrTableCell: ExtendedTableCellProps[] =
   [
