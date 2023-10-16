@@ -1,33 +1,23 @@
-import {
-  MouseEvent,
-  useMemo,
-  useState
-} from 'react'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
-import {
-  useDocuments,
-  useTotal
-} from '../../../../store/hook'
-import {
-  usePageNumber,
-  useUrlFetch
-} from '../../../../hooks'
-import { KeysDocument } from '../../../../store/slice'
+import { MouseEvent, useState } from 'react'
 import {
   EnhancedTableHead,
   arrTableCell,
   getComparator,
   stableSort
 } from './table-ui.utils'
+import Paper from '@mui/material/Paper'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableRow from '@mui/material/TableRow'
+import { KeysDocument } from '../../../../store/slice'
 import { Order } from './table-ui.types'
+import { useDocuments } from '../../../../store/hook'
+import { useUrlFetch } from '../../../../hooks'
+import { Tooltip } from '@mui/material'
 
 export const TableUi = () => {
-  const total = useTotal()
   const documents = useDocuments()
 
   console.log({
@@ -57,14 +47,9 @@ export const TableUi = () => {
     getComparator(order, orderBy)
   )
 
-  // const visibleRows = useMemo(
-  //   () =>
-  //     stableSort(
-  //       documents,
-  //       getComparator(order, orderBy)
-  //     ),
-  //   [order, orderBy, documents.length, page]
-  // )
+  const movePage = (id: string) => {
+    console.log({ id })
+  }
 
   return (
     <Paper sx={{ width: '100%', mb: 2 }}>
@@ -91,13 +76,42 @@ export const TableUi = () => {
                   sx={{ cursor: 'pointer' }}
                 >
                   {arrTableCell.map((rowEl) => {
+                    console.log({
+                      a: rowEl,
+                      b: row[rowEl.rowtype]
+                    })
                     return (
-                      <TableCell
-                        key={rowEl.rowtype}
-                        {...rowEl}
-                      >
-                        {row[rowEl.rowtype]}
-                      </TableCell>
+                      <>
+                        {rowEl.rowtype ===
+                        'id' ? (
+                          <Tooltip
+                            title={
+                              'Open detail document'
+                            }
+                          >
+                            <TableCell
+                              key={rowEl.rowtype}
+                              {...rowEl}
+                              onClick={() =>
+                                movePage(
+                                  row[
+                                    rowEl.rowtype
+                                  ] as string
+                                )
+                              }
+                            >
+                              {row[rowEl.rowtype]}
+                            </TableCell>
+                          </Tooltip>
+                        ) : (
+                          <TableCell
+                            key={rowEl.rowtype}
+                            {...rowEl}
+                          >
+                            {row[rowEl.rowtype]}
+                          </TableCell>
+                        )}
+                      </>
                     )
                   })}
                 </TableRow>
