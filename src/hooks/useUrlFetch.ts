@@ -4,42 +4,50 @@ import {
   getData,
   typeForFetch
 } from '../api'
-import { useAppDispatch } from '../store/hook'
 import {
   setDocuments,
   setTotal
 } from '../store/slice'
+import { useAppDispatch } from '../store/hook'
 import { useGetParamsUrl } from '.'
+import { SearchType } from '../pages/table-page/components'
+import { splitFieldSearch } from '../constants'
 
 export const useUrlFetch = () => {
-  // const { pathname, search, state } =
-  //   useLocation()
-
   const {
     fromId,
     fromPost,
     page,
+    textSearch,
     toId,
     toPost,
-    type
+    type,
+    typeSearch,
+    placeSearch
   } = useGetParamsUrl()
 
   console.log({ type })
-  // const page = numberPage || 1
 
   const dispatch = useAppDispatch()
 
   const getDocuments = async () => {
     const settingFetch: ConfFetch = {
-      type: type as typeForFetch,
-      page,
       fromId,
-      toId,
       fromPost,
-      toPost
+      page,
+      textSearch,
+      toId,
+      toPost,
+      type: type as typeForFetch,
+      typeSearch: typeSearch as SearchType,
+      placeSearch: placeSearch.split(
+        splitFieldSearch
+      )
     }
+
     const { data, total } =
       await getData(settingFetch)
+
     console.log({ total })
 
     dispatch(setDocuments(data))
@@ -48,7 +56,14 @@ export const useUrlFetch = () => {
 
   useEffect(() => {
     getDocuments()
-  }, [page, type, fromId, toId, fromPost, toPost])
-
-  // getDocuments()
+  }, [
+    page,
+    type,
+    fromId,
+    toId,
+    fromPost,
+    toPost,
+    textSearch,
+    typeSearch
+  ])
 }

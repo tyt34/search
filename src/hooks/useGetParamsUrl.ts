@@ -12,6 +12,13 @@ export const useGetParamsUrl = () => {
   const fromPost =
     queryParams.get('from_post') ?? ''
   const toPost = queryParams.get('to_post') ?? ''
+  const typeSearch =
+    queryParams.get('type_search') ?? ''
+  const textSearch =
+    queryParams.get('text_search') ?? ''
+
+  const placeSearch =
+    queryParams.get('place_search') ?? ''
 
   return {
     type,
@@ -19,6 +26,9 @@ export const useGetParamsUrl = () => {
     fromId,
     toId,
     fromPost,
-    toPost
+    toPost,
+    typeSearch,
+    textSearch,
+    placeSearch
   }
 }

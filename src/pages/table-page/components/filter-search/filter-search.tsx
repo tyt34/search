@@ -2,43 +2,78 @@ import {
   ChangeEvent,
   startTransition,
   useEffect,
-  useState
+  useState,
+  MouseEvent
 } from 'react'
 import {
   Button,
   FormControl,
-  TextField
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip
 } from '@mui/material'
 import styles from './filter-search.module.scss'
 import { useNavigate } from 'react-router'
-import { useSearchParams } from 'react-router-dom'
 import { useGetParamsUrl } from '../../../../hooks'
+import { tooltipTextSearch } from './filter-search.constants'
+import { splitFieldSearch } from '../../../../constants'
+
+export type SearchType = 'accurate' | 'advanced'
+
+type FormDataType = {
+  idFrom: string
+  idTo: string
+  postIdFrom: string
+  postIdTo: string
+  searchText: string
+  typeSearch: SearchType
+  placeSearch: string[]
+}
 
 export const FilterSearch = () => {
   const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
-  const { fromId, fromPost, toId, toPost } =
-    useGetParamsUrl()
+  const {
+    fromId,
+    fromPost,
+    toId,
+    toPost,
+    textSearch,
+    typeSearch,
+    placeSearch
+  } = useGetParamsUrl()
 
-  const [formData, setFormData] = useState({
-    idFrom: '',
-    idTo: '',
-    postIdFrom: '',
-    postIdTo: ''
-  })
+  const [formData, setFormData] =
+    useState<FormDataType>({
+      idFrom: '',
+      idTo: '',
+      postIdFrom: '',
+      postIdTo: '',
+      searchText: '',
+      typeSearch: 'accurate',
+      placeSearch: []
+    })
 
   useEffect(() => {
     setFormData({
       idFrom: fromId,
       idTo: toId,
       postIdFrom: fromPost,
-      postIdTo: toPost
+      postIdTo: toPost,
+      searchText: textSearch,
+      typeSearch: typeSearch as SearchType,
+      placeSearch:
+        placeSearch !== ''
+          ? placeSearch.split(splitFieldSearch)
+          : []
     })
   }, [])
 
   console.log({ formData })
 
-  const handleClick = () => {
+  const handleClickFilter = () => {
+    const searchParams = new URLSearchParams()
+
     console.log(' Filter ')
 
     const { idFrom, idTo, postIdFrom, postIdTo } =
@@ -46,10 +81,8 @@ export const FilterSearch = () => {
 
     searchParams.set('mode', 'filter')
     searchParams.set('page', '1')
-
     searchParams.set('from_id', idFrom)
     searchParams.set('to_id', idTo)
-
     searchParams.set('from_post', postIdFrom)
     searchParams.set('to_post', postIdTo)
 
@@ -60,7 +93,56 @@ export const FilterSearch = () => {
     })
   }
 
-  const handleInputChange = (
+  const handleClickSearch = () => {
+    const searchParams = new URLSearchParams()
+
+    console.log(' Search ')
+
+    const {
+      typeSearch,
+      searchText,
+      placeSearch
+    } = formData
+
+    searchParams.set('mode', 'search')
+    searchParams.set('page', '1')
+    searchParams.set('type_search', typeSearch)
+    searchParams.set('text_search', searchText)
+    searchParams.set(
+      'place_search',
+      placeSearch.join(splitFieldSearch)
+    )
+
+    startTransition(() => {
+      navigate({
+        search: '?' + searchParams.toString()
+      })
+    })
+  }
+
+  const handleClickFilterSearch = () => {
+    const searchParams = new URLSearchParams()
+
+    console.log(' Filter and search ')
+
+    const { idFrom, idTo, postIdFrom, postIdTo } =
+      formData
+
+    searchParams.set('mode', 'filter')
+    searchParams.set('page', '1')
+    searchParams.set('from_id', idFrom)
+    searchParams.set('to_id', idTo)
+    searchParams.set('from_post', postIdFrom)
+    searchParams.set('to_post', postIdTo)
+
+    startTransition(() => {
+      navigate({
+        search: '?' + searchParams.toString()
+      })
+    })
+  }
+
+  const handleInputChangeNumber = (
     event: ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = event.target
@@ -74,43 +156,142 @@ export const FilterSearch = () => {
     })
   }
 
+  const handleInputChangeText = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = event.target
+    event.target.value = value
+
+    setFormData({
+      ...formData,
+      [name]: value
+    })
+  }
+
+  const changeTypeSeach = (
+    event: MouseEvent<HTMLElement>,
+    newValue: SearchType
+  ) => {
+    setFormData({
+      ...formData,
+      typeSearch: newValue
+    })
+  }
+
+  const changePlaceSearch = (
+    event: React.MouseEvent<HTMLElement>,
+    newValue: string[]
+  ) => {
+    console.log({ newValue })
+    setFormData({
+      ...formData,
+      placeSearch: newValue
+    })
+  }
+
   return (
     <div className={styles.filter}>
       <FormControl>
         <div className={styles.row}>
           <TextField
-            label="ID from"
+            label="Filter ID from"
             name="idFrom"
-            onInput={handleInputChange}
+            onInput={handleInputChangeNumber}
             value={formData.idFrom}
           />
           <TextField
-            label="ID to"
+            label="Filter ID to"
             name="idTo"
-            onInput={handleInputChange}
+            onInput={handleInputChangeNumber}
             value={formData.idTo}
           />
         </div>
         <div className={styles.row}>
           <TextField
-            label="PostID from"
+            label="Filter PostID from"
             name="postIdFrom"
-            onInput={handleInputChange}
+            onInput={handleInputChangeNumber}
             value={formData.postIdFrom}
           />
           <TextField
-            label="PostID to"
+            label="Filter PostID to"
             name="postIdTo"
-            onInput={handleInputChange}
+            onInput={handleInputChangeNumber}
             value={formData.postIdTo}
           />
         </div>
-        <Button
-          variant="contained"
-          onClick={handleClick}
-        >
-          filter
-        </Button>
+        <div className={styles.row}>
+          <TextField
+            label="Search text"
+            name="searchText"
+            onInput={handleInputChangeText}
+            value={formData.searchText}
+          />
+          <div className={styles.toggles}>
+            <Tooltip title={tooltipTextSearch}>
+              <ToggleButtonGroup
+                size="small"
+                color="primary"
+                value={formData.typeSearch}
+                exclusive
+                onChange={changeTypeSeach}
+                aria-label="Platform"
+              >
+                <ToggleButton value="accurate">
+                  Accurate
+                </ToggleButton>
+                <ToggleButton value="advanced">
+                  Advanced
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </Tooltip>
+            <ToggleButtonGroup
+              value={formData.placeSearch}
+              onChange={changePlaceSearch}
+              aria-label="text formatting"
+              color="primary"
+            >
+              <ToggleButton
+                value="name"
+                aria-label="name"
+              >
+                Name
+              </ToggleButton>
+              <ToggleButton
+                value="email"
+                aria-label="email"
+              >
+                Email
+              </ToggleButton>
+              <ToggleButton
+                value="body"
+                aria-label="body"
+              >
+                Body
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </div>
+        </div>
+        <div className={styles.buttons}>
+          <Button
+            variant="contained"
+            onClick={handleClickFilter}
+          >
+            filter
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleClickSearch}
+          >
+            search
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleClickFilterSearch}
+          >
+            filter and search
+          </Button>
+        </div>
       </FormControl>
     </div>
   )

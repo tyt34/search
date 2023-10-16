@@ -1,8 +1,12 @@
+import { SearchType } from '../pages/table-page/components'
 import { TypeDocument } from '../store/slice'
 
 const url = 'http://localhost:3001'
 
-export type typeForFetch = 'all' | 'filter'
+export type typeForFetch =
+  | 'all'
+  | 'filter'
+  | 'search'
 
 export type ConfFetch = {
   type: typeForFetch
@@ -11,6 +15,9 @@ export type ConfFetch = {
   toId: string
   fromPost: string
   toPost: string
+  textSearch: string
+  typeSearch: SearchType
+  placeSearch: string[]
 }
 
 const transformParams = (params: ConfFetch) => {
@@ -20,7 +27,10 @@ const transformParams = (params: ConfFetch) => {
     page,
     toId,
     toPost,
-    type
+    type,
+    textSearch,
+    typeSearch,
+    placeSearch
   } = params
   let endpoint = ''
 
@@ -30,6 +40,31 @@ const transformParams = (params: ConfFetch) => {
   if (type === 'filter') {
     endpoint = `/${type}?page=${page}&from_id=${fromId}&to_id=${toId}&from_post=${fromPost}&to_post=${toPost}`
   }
+  if (type === 'search') {
+    const placeSearchUrl = [
+      1, 2, 3
+    ].reduce<string>((acc, el, i) => {
+      const isPlace = placeSearch[i]
+      const addPath = isPlace
+        ? `&field=${isPlace}`
+        : '&field='
+
+      const newPath = acc + addPath
+      return newPath
+    }, '')
+
+    const searchTypeUrl =
+      typeSearch === 'accurate'
+        ? 'match_phrase'
+        : 'multi_match'
+
+    endpoint = `/${type}?page=${page}&text=${textSearch}&search_type=${searchTypeUrl}${placeSearchUrl}`
+  }
+
+  console.log({
+    endpoint,
+    arr: endpoint.split('&')
+  })
 
   return endpoint
 }
@@ -43,8 +78,6 @@ export const getData = async (
   params: ConfFetch
 ): Promise<DataFetch> => {
   const urlFetch = url + transformParams(params)
-
-  console.log({ params, urlFetch })
 
   const res = await fetch(urlFetch, {
     method: 'GET',

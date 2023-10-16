@@ -6,20 +6,11 @@ import { arrFilter } from '../../utils'
 import { Button } from '@mui/material'
 import { startTransition } from 'react'
 import { pages } from '../../routes/app-routes.constants'
-// import styles from './change-mode.module.scss'
 
 export const ChangeTypePage = () => {
   const navigate = useNavigate()
 
-  const { pathname, state, search, hash } =
-    useLocation()
-
-  // console.log({
-  //   path: pathname,
-  //   state,
-  //   search,
-  //   hash
-  // })
+  const { pathname, search } = useLocation()
 
   const handleClick = () => {
     const arrPath = arrFilter(pathname.split('/'))
@@ -37,19 +28,11 @@ export const ChangeTypePage = () => {
   }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: '10px'
-      }}
+    <Button
+      variant="contained"
+      onClick={handleClick}
     >
-      <Button
-        variant="contained"
-        onClick={handleClick}
-      >
-        Change type page
-      </Button>
-    </div>
+      Change type page
+    </Button>
   )
 }
