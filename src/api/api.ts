@@ -35,10 +35,8 @@ const transformParams = (params: ConfFetch) => {
   } = params
   let endpoint = ''
 
-  console.log({ type })
-
   const placeSearchUrl = [1, 2, 3].reduce<string>(
-    (acc, el, i) => {
+    (acc, _el, i) => {
       const isPlace = placeSearch[i]
       const addPath = isPlace
         ? `&field=${isPlace}`

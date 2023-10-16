@@ -1,10 +1,10 @@
+import { startTransition } from 'react'
 import {
   useLocation,
   useNavigate
 } from 'react-router'
 import { arrFilter } from '../../utils'
 import { Button } from '@mui/material'
-import { startTransition } from 'react'
 import { pages } from '../../routes/app-routes.constants'
 
 export const ChangeTypePage = () => {

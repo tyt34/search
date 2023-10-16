@@ -1,3 +1,22 @@
-.a {
-  border: 1px solid black;
+.line {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.document {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  margin-top: 20px;
+  background-color: rgb(224, 224, 224);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  width: 100px;
+  min-width: 100px;
 }

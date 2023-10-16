@@ -25,7 +25,7 @@ export const pages: PageType = {
     path: '/data/display'
   },
   detail: {
-    path: '/detail'
+    path: '/detail/'
   },
   default: {
     path: '/data/table?mode=all&page=1'

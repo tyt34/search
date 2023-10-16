@@ -26,8 +26,6 @@ export const useUrlFetch = () => {
     placeSearch
   } = useGetParamsUrl()
 
-  console.log({ type })
-
   const dispatch = useAppDispatch()
 
   const getDocuments = async () => {
@@ -47,8 +45,6 @@ export const useUrlFetch = () => {
 
     const { data, total } =
       await getData(settingFetch)
-
-    console.log({ total })
 
     dispatch(setDocuments(data))
     dispatch(setTotal(total))

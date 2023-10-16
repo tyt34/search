@@ -1,4 +1,10 @@
-import { MouseEvent, useState } from 'react'
+import {
+  Fragment,
+  MouseEvent,
+  startTransition,
+  useState
+} from 'react'
+import { useNavigate } from 'react-router'
 import {
   EnhancedTableHead,
   arrTableCell,
@@ -16,8 +22,10 @@ import { Order } from './table-ui.types'
 import { useDocuments } from '../../../../store/hook'
 import { useUrlFetch } from '../../../../hooks'
 import { Tooltip } from '@mui/material'
+import { pages } from '../../../../routes/app-routes.constants'
 
 export const TableUi = () => {
+  const navigate = useNavigate()
   const documents = useDocuments()
 
   console.log({
@@ -48,7 +56,16 @@ export const TableUi = () => {
   )
 
   const movePage = (id: string) => {
-    console.log({ id })
+    const searchParams = new URLSearchParams()
+
+    searchParams.set('id', id)
+
+    startTransition(() => {
+      navigate({
+        pathname: pages.detail.path,
+        search: '?' + searchParams.toString()
+      })
+    })
   }
 
   return (
@@ -76,21 +93,18 @@ export const TableUi = () => {
                   sx={{ cursor: 'pointer' }}
                 >
                   {arrTableCell.map((rowEl) => {
-                    console.log({
-                      a: rowEl,
-                      b: row[rowEl.rowtype]
-                    })
+                    const value =
+                      row[rowEl.rowtype]
                     return (
-                      <>
+                      <Fragment
+                        key={rowEl.rowtype}
+                      >
                         {rowEl.rowtype ===
                         'id' ? (
                           <Tooltip
-                            title={
-                              'Open detail document'
-                            }
+                            title={`Open detail document ${value}`}
                           >
                             <TableCell
-                              key={rowEl.rowtype}
                               {...rowEl}
                               onClick={() =>
                                 movePage(
@@ -100,18 +114,15 @@ export const TableUi = () => {
                                 )
                               }
                             >
-                              {row[rowEl.rowtype]}
+                              {value}
                             </TableCell>
                           </Tooltip>
                         ) : (
-                          <TableCell
-                            key={rowEl.rowtype}
-                            {...rowEl}
-                          >
-                            {row[rowEl.rowtype]}
+                          <TableCell {...rowEl}>
+                            {value}
                           </TableCell>
                         )}
-                      </>
+                      </Fragment>
                     )
                   })}
                 </TableRow>

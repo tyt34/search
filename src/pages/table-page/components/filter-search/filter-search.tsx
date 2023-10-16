@@ -51,11 +51,10 @@ export const FilterSearch = () => {
       postIdTo: '',
       searchText: '',
       typeSearch: 'accurate',
-      placeSearch: []
+      placeSearch: ['body', 'name', 'email']
     })
 
   useEffect(() => {
-    console.log({ typeSearch })
     setFormData({
       idFrom: fromId,
       idTo: toId,
@@ -68,11 +67,9 @@ export const FilterSearch = () => {
       placeSearch:
         placeSearch !== ''
           ? placeSearch.split(splitFieldSearch)
-          : []
+          : ['body', 'name', 'email']
     })
   }, [])
-
-  console.log({ formData })
 
   const handleClickFilter = () => {
     const searchParams = new URLSearchParams()
@@ -200,7 +197,6 @@ export const FilterSearch = () => {
     event: React.MouseEvent<HTMLElement>,
     newValue: string[]
   ) => {
-    console.log({ newValue })
     setFormData({
       ...formData,
       placeSearch: newValue
