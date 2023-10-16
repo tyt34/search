@@ -55,13 +55,16 @@ export const FilterSearch = () => {
     })
 
   useEffect(() => {
+    console.log({ typeSearch })
     setFormData({
       idFrom: fromId,
       idTo: toId,
       postIdFrom: fromPost,
       postIdTo: toPost,
       searchText: textSearch,
-      typeSearch: typeSearch as SearchType,
+      typeSearch: !!typeSearch
+        ? (typeSearch as SearchType)
+        : 'accurate',
       placeSearch:
         placeSearch !== ''
           ? placeSearch.split(splitFieldSearch)
@@ -125,15 +128,28 @@ export const FilterSearch = () => {
 
     console.log(' Filter and search ')
 
-    const { idFrom, idTo, postIdFrom, postIdTo } =
-      formData
+    const {
+      idFrom,
+      idTo,
+      postIdFrom,
+      postIdTo,
+      searchText,
+      placeSearch
+    } = formData
 
-    searchParams.set('mode', 'filter')
+    searchParams.set('mode', 'filter_search')
     searchParams.set('page', '1')
     searchParams.set('from_id', idFrom)
     searchParams.set('to_id', idTo)
     searchParams.set('from_post', postIdFrom)
     searchParams.set('to_post', postIdTo)
+
+    searchParams.set('type_search', typeSearch)
+    searchParams.set('text_search', searchText)
+    searchParams.set(
+      'place_search',
+      placeSearch.join(splitFieldSearch)
+    )
 
     startTransition(() => {
       navigate({
@@ -172,10 +188,12 @@ export const FilterSearch = () => {
     event: MouseEvent<HTMLElement>,
     newValue: SearchType
   ) => {
-    setFormData({
-      ...formData,
-      typeSearch: newValue
-    })
+    if (!!newValue) {
+      setFormData({
+        ...formData,
+        typeSearch: newValue
+      })
+    }
   }
 
   const changePlaceSearch = (

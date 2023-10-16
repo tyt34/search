@@ -7,6 +7,7 @@ export type typeForFetch =
   | 'all'
   | 'filter'
   | 'search'
+  | 'filter_search'
 
 export type ConfFetch = {
   type: typeForFetch
@@ -34,16 +35,10 @@ const transformParams = (params: ConfFetch) => {
   } = params
   let endpoint = ''
 
-  if (type === 'all') {
-    endpoint = `/${type}?page=${page}`
-  }
-  if (type === 'filter') {
-    endpoint = `/${type}?page=${page}&from_id=${fromId}&to_id=${toId}&from_post=${fromPost}&to_post=${toPost}`
-  }
-  if (type === 'search') {
-    const placeSearchUrl = [
-      1, 2, 3
-    ].reduce<string>((acc, el, i) => {
+  console.log({ type })
+
+  const placeSearchUrl = [1, 2, 3].reduce<string>(
+    (acc, el, i) => {
       const isPlace = placeSearch[i]
       const addPath = isPlace
         ? `&field=${isPlace}`
@@ -51,14 +46,33 @@ const transformParams = (params: ConfFetch) => {
 
       const newPath = acc + addPath
       return newPath
-    }, '')
+    },
+    ''
+  )
 
-    const searchTypeUrl =
-      typeSearch === 'accurate'
-        ? 'match_phrase'
-        : 'multi_match'
+  const searchTypeUrl =
+    typeSearch === 'accurate'
+      ? 'match_phrase'
+      : 'multi_match'
 
-    endpoint = `/${type}?page=${page}&text=${textSearch}&search_type=${searchTypeUrl}${placeSearchUrl}`
+  const partPage = `?page=${page}`
+  const partFilter = `&from_id=${fromId}&to_id=${toId}&from_post=${fromPost}&to_post=${toPost}`
+  const partSearch = `&text=${textSearch}&search_type=${searchTypeUrl}${placeSearchUrl}`
+
+  if (type === 'all') {
+    endpoint = `/${type}${partPage}`
+  }
+
+  if (type === 'filter') {
+    endpoint = `/${type}${partPage}${partFilter}`
+  }
+
+  if (type === 'search') {
+    endpoint = `/${type}${partPage}${partSearch}`
+  }
+
+  if (type === 'filter_search') {
+    endpoint = `/${type}${partPage}${partSearch}${partFilter}`
   }
 
   console.log({
