@@ -53,10 +53,5 @@ export const transformParams = (params: ConfFetch) => {
 
   const endpoint = createEndpoint[type]
 
-  console.log({
-    endpoint,
-    arr: endpoint.split('&')
-  })
-
   return endpoint
 }

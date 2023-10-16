@@ -89,8 +89,6 @@ export const FilterSearch = () => {
     const { idFrom, idTo, postIdFrom, postIdTo, searchText, placeSearch } =
       formData
 
-    console.log({ F: formData['idFrom'] })
-
     searchParams.set('mode', 'filter_search')
     searchParams.set('page', '1')
     searchParams.set('from_id', idFrom)

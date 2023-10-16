@@ -26,12 +26,6 @@ export const TableUi = () => {
 
   useUrlFetch()
 
-  console.log({
-    // Tt: total,
-    // Dt: documents,
-    fd: documents.length ? documents[0].id : null
-  })
-
   const handleRequestSort = (
     event: MouseEvent<unknown>,
     property: KeysDocument
