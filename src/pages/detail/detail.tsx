@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react'
-import {
-  useGetParamsUrl,
-  useUrlFetch
-} from '../../hooks'
+import { useGetParamsUrl } from '../../hooks'
 import { useDocuments } from '../../store/hook'
 import { ButtonRestart } from '../table-page/components'
 import {
@@ -10,8 +7,8 @@ import {
   TypeDocument
 } from '../../store/slice'
 import { Chip } from '@mui/material'
-import styles from './detail.module.scss'
 import { ConfFetch, getData } from '../../api'
+import styles from './detail.module.scss'
 
 const initialState: TypeDocument = {
   body: '',
@@ -71,6 +68,13 @@ export const Detail = () => {
     }
   }, [])
 
+  const moveToTable = (
+    field: KeysDocument,
+    value: string
+  ) => {
+    console.log({ field, value })
+  }
+
   console.log({ document })
 
   return (
@@ -79,6 +83,9 @@ export const Detail = () => {
 
       <section className={styles.document}>
         {arrKeyDocumentSort.map((field) => {
+          const f = field.toUpperCase()
+          const v =
+            document[field as KeysDocument]
           return (
             <div
               className={styles.line}
@@ -87,11 +94,16 @@ export const Detail = () => {
               <div className={styles.row}>
                 <Chip
                   color="primary"
-                  label={`${field.toUpperCase()}:`}
+                  label={`${f}:`}
                 />
               </div>
-              <span>
-                {document[field as KeysDocument]}
+              <span
+                className={styles.link}
+                onClick={() => {
+                  moveToTable(field, `${v}`)
+                }}
+              >
+                {v}
               </span>
             </div>
           )

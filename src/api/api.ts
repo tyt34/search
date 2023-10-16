@@ -10,15 +10,32 @@ export type typeForFetch =
   | 'filter_search'
 
 export type ConfFetch = {
-  type: typeForFetch
-  page: number | string
   fromId: string
   toId: string
+  type: typeForFetch
   fromPost: string
-  toPost: string
-  textSearch: string
-  typeSearch: SearchType
-  placeSearch: string[]
+  page: number | string
+  toPost?: string
+  textSearch?: string
+  typeSearch?: SearchType
+  placeSearch?: string[]
+}
+
+const getPlaceSearchUrl = (fields: string[]) => {
+  const fieldsUrl = [1, 2, 3].reduce<string>(
+    (acc, _el, i) => {
+      const isPlace = fields[i]
+      const addPath = isPlace
+        ? `&field=${isPlace}`
+        : '&field='
+
+      const newPath = acc + addPath
+      return newPath
+    },
+    ''
+  )
+
+  return fieldsUrl
 }
 
 const transformParams = (params: ConfFetch) => {
@@ -35,18 +52,9 @@ const transformParams = (params: ConfFetch) => {
   } = params
   let endpoint = ''
 
-  const placeSearchUrl = [1, 2, 3].reduce<string>(
-    (acc, _el, i) => {
-      const isPlace = placeSearch[i]
-      const addPath = isPlace
-        ? `&field=${isPlace}`
-        : '&field='
-
-      const newPath = acc + addPath
-      return newPath
-    },
-    ''
-  )
+  const placeSearchUrl = placeSearch
+    ? getPlaceSearchUrl(placeSearch)
+    : ''
 
   const searchTypeUrl =
     typeSearch === 'accurate'
