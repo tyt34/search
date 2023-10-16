@@ -1,12 +1,5 @@
-import {
-  PageType,
-  RouteType
-} from './app-routes.types'
-import {
-  Detail,
-  JsonDisplay,
-  TablePage
-} from '../pages'
+import { PageType, RouteType } from './app-routes.types'
+import { Detail, JsonDisplay, TablePage } from '../pages'
 import { NowUrl } from '../components'
 import { Navigate } from 'react-router'
 

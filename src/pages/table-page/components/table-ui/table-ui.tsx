@@ -1,32 +1,30 @@
-import {
-  Fragment,
-  MouseEvent,
-  startTransition,
-  useState
-} from 'react'
+import { Fragment, MouseEvent, startTransition, useState } from 'react'
 import { useNavigate } from 'react-router'
-import {
-  EnhancedTableHead,
-  arrTableCell,
-  getComparator,
-  stableSort
-} from './table-ui.utils'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
-import { KeysDocument } from '../../../../store/slice'
+import { EnhancedTableHead, getComparator, stableSort } from './table-ui.utils'
+import { KeysDocument } from '../../../../store/slice/documents.types'
 import { Order } from './table-ui.types'
+import { Tooltip } from '@mui/material'
+import { arrTableCell } from './table-ui.constants'
+import { pages } from '../../../../routes/app-routes.constants'
 import { useDocuments } from '../../../../store/hook'
 import { useUrlFetch } from '../../../../hooks'
-import { Tooltip } from '@mui/material'
-import { pages } from '../../../../routes/app-routes.constants'
 
 export const TableUi = () => {
+  const [order, setOrder] = useState<Order>('asc')
+  const [orderBy, setOrderBy] = useState<KeysDocument>('id')
+
   const navigate = useNavigate()
   const documents = useDocuments()
+
+  const visibleRows = stableSort(documents, getComparator(order, orderBy))
+
+  useUrlFetch()
 
   console.log({
     // Tt: total,
@@ -34,26 +32,14 @@ export const TableUi = () => {
     fd: documents.length ? documents[0].id : null
   })
 
-  useUrlFetch()
-
-  const [order, setOrder] = useState<Order>('asc')
-  const [orderBy, setOrderBy] =
-    useState<KeysDocument>('id')
-
   const handleRequestSort = (
     event: MouseEvent<unknown>,
     property: KeysDocument
   ) => {
-    const isAsc =
-      orderBy === property && order === 'asc'
+    const isAsc = orderBy === property && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
   }
-
-  const visibleRows = stableSort(
-    documents,
-    getComparator(order, orderBy)
-  )
 
   const movePage = (id: string) => {
     const searchParams = new URLSearchParams()
@@ -93,34 +79,20 @@ export const TableUi = () => {
                   sx={{ cursor: 'pointer' }}
                 >
                   {arrTableCell.map((rowEl) => {
-                    const value =
-                      row[rowEl.rowtype]
+                    const value = row[rowEl.rowtype]
                     return (
-                      <Fragment
-                        key={rowEl.rowtype}
-                      >
-                        {rowEl.rowtype ===
-                        'id' ? (
-                          <Tooltip
-                            title={`Open detail document ${value}`}
-                          >
+                      <Fragment key={rowEl.rowtype}>
+                        {rowEl.rowtype === 'id' ? (
+                          <Tooltip title={`Open detail document ${value}`}>
                             <TableCell
                               {...rowEl}
-                              onClick={() =>
-                                movePage(
-                                  row[
-                                    rowEl.rowtype
-                                  ] as string
-                                )
-                              }
+                              onClick={() => movePage(`${value}`)}
                             >
                               {value}
                             </TableCell>
                           </Tooltip>
                         ) : (
-                          <TableCell {...rowEl}>
-                            {value}
-                          </TableCell>
+                          <TableCell {...rowEl}>{value}</TableCell>
                         )}
                       </Fragment>
                     )

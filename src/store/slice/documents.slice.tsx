@@ -1,28 +1,5 @@
-import {
-  PayloadAction,
-  createSlice
-} from '@reduxjs/toolkit'
-
-export type TypeDocument = {
-  postId: number
-  id: number
-  name: string
-  email: string
-  body: string
-}
-
-export type KeysDocument = keyof TypeDocument
-
-type ActionTotal = PayloadAction<number>
-
-type ActionDocument = PayloadAction<
-  TypeDocument[]
->
-
-type StateType = {
-  documents: TypeDocument[]
-  total: number
-}
+import { createSlice } from '@reduxjs/toolkit'
+import { ActionDocument, ActionTotal, StateType } from './documents.types'
 
 const initialState: StateType = {
   documents: [],
@@ -33,10 +10,7 @@ export const documentsSlice = createSlice({
   name: 'data',
   initialState,
   reducers: {
-    setDocuments: (
-      state,
-      action: ActionDocument
-    ) => {
+    setDocuments: (state, action: ActionDocument) => {
       const newDocuments = action.payload
       return { ...state, documents: newDocuments }
     },
@@ -47,5 +21,4 @@ export const documentsSlice = createSlice({
   }
 })
 
-export const { setDocuments, setTotal } =
-  documentsSlice.actions
+export const { setDocuments, setTotal } = documentsSlice.actions

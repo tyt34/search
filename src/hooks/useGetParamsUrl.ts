@@ -10,16 +10,12 @@ export const useGetParamsUrl = () => {
   const fromId = queryParams.get('from_id') ?? ''
   const toId = queryParams.get('to_id') ?? ''
   const id = queryParams.get('id') ?? ''
-  const fromPost =
-    queryParams.get('from_post') ?? ''
+  const fromPost = queryParams.get('from_post') ?? ''
   const toPost = queryParams.get('to_post') ?? ''
-  const typeSearch =
-    queryParams.get('type_search') ?? ''
-  const textSearch =
-    queryParams.get('text_search') ?? ''
+  const typeSearch = queryParams.get('type_search') ?? ''
+  const textSearch = queryParams.get('text_search') ?? ''
 
-  const placeSearch =
-    queryParams.get('place_search') ?? ''
+  const placeSearch = queryParams.get('place_search') ?? ''
 
   return {
     fromId,

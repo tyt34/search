@@ -1,1 +1,1 @@
-export * from "./json-to-html";
+export * from './json-to-html'

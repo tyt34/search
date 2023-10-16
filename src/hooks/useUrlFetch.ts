@@ -1,17 +1,11 @@
 import { useEffect } from 'react'
-import {
-  ConfFetch,
-  getData,
-  typeForFetch
-} from '../api'
-import {
-  setDocuments,
-  setTotal
-} from '../store/slice'
+import { ConfFetch, typeForFetch } from '../api/api.types'
+import { SearchType } from '../pages/table-page/components/filter-search/filter-search.types'
+import { getData } from '../api'
+import { setDocuments, setTotal } from '../store/slice'
+import { splitFieldSearch } from '../constants'
 import { useAppDispatch } from '../store/hook'
 import { useGetParamsUrl } from '.'
-import { SearchType } from '../pages/table-page/components'
-import { splitFieldSearch } from '../constants'
 
 export const useUrlFetch = () => {
   const {
@@ -33,18 +27,15 @@ export const useUrlFetch = () => {
       fromId,
       fromPost,
       page,
+      placeSearch: placeSearch.split(splitFieldSearch),
       textSearch,
       toId,
       toPost,
       type: type as typeForFetch,
-      typeSearch: typeSearch as SearchType,
-      placeSearch: placeSearch.split(
-        splitFieldSearch
-      )
+      typeSearch: typeSearch as SearchType
     }
 
-    const { data, total } =
-      await getData(settingFetch)
+    const { data, total } = await getData(settingFetch)
 
     dispatch(setDocuments(data))
     dispatch(setTotal(total))
@@ -53,13 +44,14 @@ export const useUrlFetch = () => {
   useEffect(() => {
     getDocuments()
   }, [
-    page,
-    type,
     fromId,
-    toId,
     fromPost,
-    toPost,
+    page,
+    placeSearch,
     textSearch,
+    toId,
+    toPost,
+    type,
     typeSearch
   ])
 }

@@ -1,9 +1,9 @@
 import {
   ChangeEvent,
+  MouseEvent,
   startTransition,
   useEffect,
-  useState,
-  MouseEvent
+  useState
 } from 'react'
 import {
   Button,
@@ -13,23 +13,12 @@ import {
   ToggleButtonGroup,
   Tooltip
 } from '@mui/material'
-import styles from './filter-search.module.scss'
-import { useNavigate } from 'react-router'
-import { useGetParamsUrl } from '../../../../hooks'
-import { tooltipTextSearch } from './filter-search.constants'
+import { FormDataType, SearchType } from './filter-search.types'
 import { splitFieldSearch } from '../../../../constants'
-
-export type SearchType = 'accurate' | 'advanced'
-
-type FormDataType = {
-  idFrom: string
-  idTo: string
-  postIdFrom: string
-  postIdTo: string
-  searchText: string
-  typeSearch: SearchType
-  placeSearch: string[]
-}
+import { initialFormData, tooltipTextSearch } from './filter-search.constants'
+import { useGetParamsUrl } from '../../../../hooks'
+import { useNavigate } from 'react-router'
+import styles from './filter-search.module.scss'
 
 export const FilterSearch = () => {
   const navigate = useNavigate()
@@ -43,16 +32,7 @@ export const FilterSearch = () => {
     placeSearch
   } = useGetParamsUrl()
 
-  const [formData, setFormData] =
-    useState<FormDataType>({
-      idFrom: '',
-      idTo: '',
-      postIdFrom: '',
-      postIdTo: '',
-      searchText: '',
-      typeSearch: 'accurate',
-      placeSearch: ['body', 'name', 'email']
-    })
+  const [formData, setFormData] = useState<FormDataType>(initialFormData)
 
   useEffect(() => {
     setFormData({
@@ -61,9 +41,7 @@ export const FilterSearch = () => {
       postIdFrom: fromPost,
       postIdTo: toPost,
       searchText: textSearch,
-      typeSearch: !!typeSearch
-        ? (typeSearch as SearchType)
-        : 'accurate',
+      typeSearch: !!typeSearch ? (typeSearch as SearchType) : 'accurate',
       placeSearch:
         placeSearch !== ''
           ? placeSearch.split(splitFieldSearch)
@@ -73,11 +51,7 @@ export const FilterSearch = () => {
 
   const handleClickFilter = () => {
     const searchParams = new URLSearchParams()
-
-    console.log(' Filter ')
-
-    const { idFrom, idTo, postIdFrom, postIdTo } =
-      formData
+    const { idFrom, idTo, postIdFrom, postIdTo } = formData
 
     searchParams.set('mode', 'filter')
     searchParams.set('page', '1')
@@ -95,23 +69,13 @@ export const FilterSearch = () => {
 
   const handleClickSearch = () => {
     const searchParams = new URLSearchParams()
-
-    console.log(' Search ')
-
-    const {
-      typeSearch,
-      searchText,
-      placeSearch
-    } = formData
+    const { typeSearch, searchText, placeSearch } = formData
 
     searchParams.set('mode', 'search')
     searchParams.set('page', '1')
     searchParams.set('type_search', typeSearch)
     searchParams.set('text_search', searchText)
-    searchParams.set(
-      'place_search',
-      placeSearch.join(splitFieldSearch)
-    )
+    searchParams.set('place_search', placeSearch.join(splitFieldSearch))
 
     startTransition(() => {
       navigate({
@@ -122,17 +86,10 @@ export const FilterSearch = () => {
 
   const handleClickFilterSearch = () => {
     const searchParams = new URLSearchParams()
+    const { idFrom, idTo, postIdFrom, postIdTo, searchText, placeSearch } =
+      formData
 
-    console.log(' Filter and search ')
-
-    const {
-      idFrom,
-      idTo,
-      postIdFrom,
-      postIdTo,
-      searchText,
-      placeSearch
-    } = formData
+    console.log({ F: formData['idFrom'] })
 
     searchParams.set('mode', 'filter_search')
     searchParams.set('page', '1')
@@ -140,13 +97,9 @@ export const FilterSearch = () => {
     searchParams.set('to_id', idTo)
     searchParams.set('from_post', postIdFrom)
     searchParams.set('to_post', postIdTo)
-
     searchParams.set('type_search', typeSearch)
     searchParams.set('text_search', searchText)
-    searchParams.set(
-      'place_search',
-      placeSearch.join(splitFieldSearch)
-    )
+    searchParams.set('place_search', placeSearch.join(splitFieldSearch))
 
     startTransition(() => {
       navigate({
@@ -155,9 +108,7 @@ export const FilterSearch = () => {
     })
   }
 
-  const handleInputChangeNumber = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleInputChangeNumber = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     const newValue = value.replace(/[^0-9]/g, '')
 
@@ -169,9 +120,7 @@ export const FilterSearch = () => {
     })
   }
 
-  const handleInputChangeText = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleInputChangeText = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     event.target.value = value
 
@@ -251,12 +200,8 @@ export const FilterSearch = () => {
                 onChange={changeTypeSeach}
                 aria-label="Platform"
               >
-                <ToggleButton value="accurate">
-                  Accurate
-                </ToggleButton>
-                <ToggleButton value="advanced">
-                  Advanced
-                </ToggleButton>
+                <ToggleButton value="accurate">Accurate</ToggleButton>
+                <ToggleButton value="advanced">Advanced</ToggleButton>
               </ToggleButtonGroup>
             </Tooltip>
             <ToggleButtonGroup

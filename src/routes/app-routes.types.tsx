@@ -1,8 +1,4 @@
-type AllPage =
-  | 'table'
-  | 'jsonDisplay'
-  | 'detail'
-  | 'default'
+type AllPage = 'table' | 'jsonDisplay' | 'detail' | 'default'
 
 export type RouteType = {
   key: string | number
@@ -10,7 +6,4 @@ export type RouteType = {
   element: JSX.Element
 }
 
-export type PageType = Record<
-  AllPage,
-  { path: string }
->
+export type PageType = Record<AllPage, { path: string }>

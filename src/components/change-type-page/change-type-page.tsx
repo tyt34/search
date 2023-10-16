@@ -1,10 +1,7 @@
 import { startTransition } from 'react'
-import {
-  useLocation,
-  useNavigate
-} from 'react-router'
-import { arrFilter } from '../../utils'
+import { useLocation, useNavigate } from 'react-router'
 import { Button } from '@mui/material'
+import { arrFilter } from '../../utils'
 import { pages } from '../../routes/app-routes.constants'
 
 export const ChangeTypePage = () => {
@@ -16,9 +13,7 @@ export const ChangeTypePage = () => {
     const arrPath = arrFilter(pathname.split('/'))
     const mode = arrPath[1]
     const nextPageLeft: string =
-      mode === 'table'
-        ? pages.jsonDisplay.path
-        : pages.table.path
+      mode === 'table' ? pages.jsonDisplay.path : pages.table.path
 
     const nextPage = nextPageLeft + search
 

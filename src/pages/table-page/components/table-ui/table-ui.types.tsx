@@ -1,9 +1,8 @@
 import { MouseEvent } from 'react'
 import { TableCellProps } from '@mui/material/TableCell'
-import { KeysDocument } from '../../../../store/slice'
+import { KeysDocument } from '../../../../store/slice/documents.types'
 
-export interface ExtendedTableCellProps
-  extends TableCellProps {
+export interface ExtendedTableCellProps extends TableCellProps {
   rowtype: KeysDocument
 }
 
@@ -17,10 +16,7 @@ export interface HeadCell {
 }
 
 export interface EnhancedTableProps {
-  onRequestSort: (
-    event: MouseEvent<unknown>,
-    property: KeysDocument
-  ) => void
+  onRequestSort: (event: MouseEvent<unknown>, property: KeysDocument) => void
 
   order: Order
   orderBy: string

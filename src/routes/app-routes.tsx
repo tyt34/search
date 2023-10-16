@@ -1,10 +1,6 @@
-import {
-  HashRouter,
-  Route,
-  Routes
-} from 'react-router-dom'
-import { configRoutes } from './app-routes.constants'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import { configRoutes } from './app-routes.constants'
 import { store } from '../store/store'
 
 export const AppRoutes = () => {
