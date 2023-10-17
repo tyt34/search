@@ -1,11 +1,6 @@
 import { Box } from '@mui/material'
-import { ChangeTypePage } from '../../components'
-import {
-  ButtonRestart,
-  FilterSearch,
-  PaginationUi,
-  TableUi
-} from './components'
+import { ButtonRestart, ChangeTypePage } from '../../components'
+import { FilterSearch, PaginationUi, TableUi } from './components'
 
 export const TablePage = () => {
   return (

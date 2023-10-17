@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import styles from './json-to-html.module.scss'
-import { TypeDocument } from '../../../../store/slice'
+import { TypeDocument } from '../../../../store/slice/documents.types'
 
 type Props = {
   json: TypeDocument[]

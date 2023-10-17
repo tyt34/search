@@ -9,3 +9,6 @@ export const useDocuments = () =>
   useAppSelector((store) => store.data.documents)
 
 export const useTotal = () => useAppSelector((store) => store.data.total)
+
+export const hasDataSelector = () =>
+  useSelector((store: RootState) => store.data.documents.length > 0)

@@ -1,6 +1,5 @@
 import { PageType, RouteType } from './app-routes.types'
 import { Detail, JsonDisplay, TablePage } from '../pages'
-import { NowUrl } from '../components'
 import { Navigate } from 'react-router'
 
 const MoveToRoot = () => (
@@ -34,31 +33,16 @@ export const configRoutes: RouteType[] = [
   {
     key: '1',
     path: pages.table.path,
-    element: (
-      <>
-        <NowUrl />
-        <TablePage />
-      </>
-    )
+    element: <TablePage />
   },
   {
     key: '2',
     path: pages.jsonDisplay.path,
-    element: (
-      <>
-        <NowUrl />
-        <JsonDisplay />
-      </>
-    )
+    element: <JsonDisplay />
   },
   {
     key: '3',
     path: pages.detail.path,
-    element: (
-      <>
-        <NowUrl />
-        <Detail />
-      </>
-    )
+    element: <Detail />
   }
 ]

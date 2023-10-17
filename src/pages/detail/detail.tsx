@@ -1,23 +1,19 @@
-import { startTransition, useEffect, useState } from 'react'
-import { ButtonRestart } from '../table-page/components'
-import { Chip } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { ButtonRestart } from '../../components'
 import { ConfFetch } from '../../api/api.types'
-import { KeysDocument, TypeDocument } from '../../store/slice/documents.types'
+import { Row } from './components'
+import { TypeDocument } from '../../store/slice/documents.types'
 import { arrKeyDocumentSort, initialState } from './detail.constants'
 import { getData } from '../../api'
-import { useDocuments } from '../../store/hook'
+import { hasDataSelector, useDocuments } from '../../store/hook'
 import { useGetParamsUrl } from '../../hooks'
-import { useNavigate } from 'react-router'
 import styles from './detail.module.scss'
-import { pages } from '../../routes/app-routes.constants'
 
 export const Detail = () => {
   const [document, setDocument] = useState<TypeDocument>(initialState)
-
-  const { id } = useGetParamsUrl()
-
   const documents = useDocuments()
-  const navigate = useNavigate()
+  const hasData = hasDataSelector()
+  const { id } = useGetParamsUrl()
 
   const getDocument = async () => {
     const settingFetch: ConfFetch = {
@@ -32,9 +28,7 @@ export const Detail = () => {
   }
 
   useEffect(() => {
-    const isStore = !!documents.length
-
-    if (isStore) {
+    if (hasData) {
       const doc = documents.filter(
         (doc: TypeDocument) => doc.id.toString() === id
       )
@@ -44,87 +38,23 @@ export const Detail = () => {
     }
   }, [])
 
-  const moveToTable = (field: KeysDocument, value: string) => {
-    const searchParams = new URLSearchParams()
-    const isStrField = ['name', 'email', 'body'].some((el) => el === field)
-
-    if (field === 'id') {
-      searchParams.set('mode', 'filter')
-      searchParams.set('page', '1')
-      searchParams.set('from_id', value)
-      searchParams.set('to_id', value)
-
-      startTransition(() => {
-        navigate({
-          pathname: pages.table.path,
-          search: '?' + searchParams.toString()
-        })
-      })
-    }
-
-    if (field === 'postId') {
-      searchParams.set('mode', 'filter')
-      searchParams.set('page', '1')
-      searchParams.set('from_post', value)
-      searchParams.set('to_post', value)
-
-      startTransition(() => {
-        navigate({
-          pathname: pages.table.path,
-          search: '?' + searchParams.toString()
-        })
-      })
-    }
-
-    if (isStrField) {
-      const clearText = value.split('\n').join(' ')
-
-      searchParams.set('mode', 'search')
-      searchParams.set('page', '1')
-      searchParams.set('type_search', 'accurate')
-      searchParams.set('text_search', clearText)
-      searchParams.set('place_search', field)
-
-      startTransition(() => {
-        navigate({
-          pathname: pages.table.path,
-          search: '?' + searchParams.toString()
-        })
-      })
-    }
-  }
-
   return (
-    <>
+    <section className={styles.section}>
       <ButtonRestart />
 
-      <section className={styles.document}>
+      <div className={styles.document}>
         {arrKeyDocumentSort.map((field) => {
-          const f = field.toUpperCase()
-          const v = document[field as KeysDocument]
+          const value = document[field].toString()
+
           return (
-            <div
-              className={styles.line}
+            <Row
               key={field}
-            >
-              <div className={styles.row}>
-                <Chip
-                  color="primary"
-                  label={`${f}:`}
-                />
-              </div>
-              <span
-                className={styles.link}
-                onClick={() => {
-                  moveToTable(field, `${v}`)
-                }}
-              >
-                {v}
-              </span>
-            </div>
+              field={field}
+              value={value}
+            />
           )
         })}
-      </section>
-    </>
+      </div>
+    </section>
   )
 }

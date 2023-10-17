@@ -1,17 +1,15 @@
-import { Fragment, MouseEvent, startTransition, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { MouseEvent, useState } from 'react'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
-import { EnhancedTableHead, getComparator, stableSort } from './table-ui.utils'
+import { Cell } from '..'
+import { EnhancedTableHead } from '../enhanced-table-head'
 import { KeysDocument } from '../../../../store/slice/documents.types'
 import { Order } from './table-ui.types'
-import { Tooltip } from '@mui/material'
 import { arrTableCell } from './table-ui.constants'
-import { pages } from '../../../../routes/app-routes.constants'
+import { getComparator, stableSort } from './table-ui.utils'
 import { useDocuments } from '../../../../store/hook'
 import { useUrlFetch } from '../../../../hooks'
 
@@ -19,7 +17,6 @@ export const TableUi = () => {
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<KeysDocument>('id')
 
-  const navigate = useNavigate()
   const documents = useDocuments()
 
   const visibleRows = stableSort(documents, getComparator(order, orderBy))
@@ -33,19 +30,6 @@ export const TableUi = () => {
     const isAsc = orderBy === property && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
-  }
-
-  const movePage = (id: string) => {
-    const searchParams = new URLSearchParams()
-
-    searchParams.set('id', id)
-
-    startTransition(() => {
-      navigate({
-        pathname: pages.detail.path,
-        search: '?' + searchParams.toString()
-      })
-    })
   }
 
   return (
@@ -73,22 +57,12 @@ export const TableUi = () => {
                   sx={{ cursor: 'pointer' }}
                 >
                   {arrTableCell.map((rowEl) => {
-                    const value = row[rowEl.rowtype]
                     return (
-                      <Fragment key={rowEl.rowtype}>
-                        {rowEl.rowtype === 'id' ? (
-                          <Tooltip title={`Open detail document ${value}`}>
-                            <TableCell
-                              {...rowEl}
-                              onClick={() => movePage(`${value}`)}
-                            >
-                              {value}
-                            </TableCell>
-                          </Tooltip>
-                        ) : (
-                          <TableCell {...rowEl}>{value}</TableCell>
-                        )}
-                      </Fragment>
+                      <Cell
+                        key={rowEl.rowtype}
+                        row={row}
+                        rowElement={rowEl}
+                      />
                     )
                   })}
                 </TableRow>
