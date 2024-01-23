@@ -1,4 +1,4 @@
-# Opensearch-Front
+# Search Using Opensearch
 
 ![](https://shields.io/badge/-SCSS-C76494)
 ![](https://shields.io/badge/-JavaScript-yellow)
